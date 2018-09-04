@@ -10,15 +10,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/articles", name="articles")
+     * @Route("/articles", name="article_lista")
      */
     public function index()
     {
         //return new Response('aaa');
-        $articles = ['Artigo 1', 'Artigo 2'];
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
         return $this->render('articles/index.html.twig',[
             'articles' => $articles
         ]);
+    }
+
+    /**
+     * @Route(/article/{id}, name="article_show")
+     */
+    public function show($id)
+    {
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        return $this->render('articles/show.html.twig', array('article' => $article));
     }
 
     /**
