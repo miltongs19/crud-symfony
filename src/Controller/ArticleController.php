@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends AbstractController
@@ -22,7 +23,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route(/article/{id}, name="article_show")
+     * @Route("/article/{id}", name="article_show")
      */
     public function show($id)
     {
@@ -32,6 +33,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/save")
+     * Method({"GET", "POST"})
      */
     public function save()
     {
@@ -39,8 +41,8 @@ class ArticleController extends AbstractController
         
         // Teste com alto acoplamento, o teste com DI será feito posteriormente
         $article = new Article();
-        $article->setTitle('Title 1');
-        $article->setBody('Body 1');
+        $article->setTitle('Title 4');
+        $article->setBody('Body 4');
 
         $entityManager->persist($article);
         $entityManager->flush();
