@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ArticleController extends AbstractController
+class ArticleController extends Controller
 {
     /**
-     * @Route("/articles", name="article_lista")
+     * @Route("/articles", name="article_list")
      */
     public function index()
     {
@@ -43,7 +44,7 @@ class ArticleController extends AbstractController
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove();
+        $entityManager->remove($article);
         $entityManager->flush(); 
         
         $response = new Response();
@@ -79,7 +80,7 @@ class ArticleController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $article = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist();
+            $entityManager->persist($article);
             $entityManager->flush();
             
             return $this->redirectToRoute('article_list');
@@ -96,8 +97,7 @@ class ArticleController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function edit(Request $request, $id)
-    {
-        $article = new Article();
+    {        
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
         $form = $this->createFormBuilder($article)
         ->add('title', TextType::class, 
