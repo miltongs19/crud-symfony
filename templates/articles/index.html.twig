@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Página de artigos</h1>
 {% if articles %}
-    <table class="table table-striped">
+    <table id='articles' class="table table-striped">
         <thead>
             <tr>
                 <th>Título artigo</th>
@@ -15,7 +15,9 @@
                 <tr>
                     <td>{{ article.title }}</td>
                     <td>
-                        <a href="/article/{{ article.id }}" class="btn btn-dark">Exibir</a>
+                        <a href="/article/list/{{ article.id }}" class="btn btn-dark">Exibir</a>
+                        <a href="/article/edit/{{ article.id }}" class="btn btn-light">Editar</a>
+                        <a href="#" class="btn btn-danger delete-article" data-id="{{ article.id }}">Deletar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -24,4 +26,7 @@
 {% else %}
 <p>Nenhum artigo cadastrado</p>
 {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script src='/js/main.js'></script>
 {% endblock %}
